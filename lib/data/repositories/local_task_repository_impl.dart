@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/drift.dart';
 import 'package:ipotato_timer/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
@@ -22,11 +24,10 @@ class LocalTaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<bool> deleteTask(int taskId) async {
-    final deleted = await (taskDatabase.delete(taskDatabase.tasks)
-          ..where((t) => t.id.equals(taskId)))
-        .go();
-    return deleted > 0;
+  Future<TaskEntity?> getTask(int taskId) async {
+    final query = taskDatabase.select(taskDatabase.tasks);
+    return (await (query..where((t) => t.id.equals(taskId))).getSingleOrNull())
+        ?.toTaskEntity;
   }
 
   @override
@@ -37,6 +38,14 @@ class LocalTaskRepositoryImpl implements TaskRepository {
           (row) => row.toTaskEntity,
         )
         .get();
+  }
+
+  @override
+  Future<bool> deleteTask(int taskId) async {
+    final deleted = await (taskDatabase.delete(taskDatabase.tasks)
+          ..where((t) => t.id.equals(taskId)))
+        .go();
+    return deleted > 0;
   }
 
   @override
