@@ -1,8 +1,8 @@
-import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
 
 abstract class ResumeTaskUseCase {
-  Future<TaskEntity> resumeTask(int taskId);
+  Future<bool> resumeTask(
+      DateTime? pausedTime, DateTime resumeTime, int taskId);
 }
 
 class ResumeTaskUseCaseImpl implements ResumeTaskUseCase {
@@ -11,7 +11,8 @@ class ResumeTaskUseCaseImpl implements ResumeTaskUseCase {
   ResumeTaskUseCaseImpl(this.taskRepository);
 
   @override
-  Future<TaskEntity> resumeTask(int taskId) {
-    return taskRepository.resumeTask(taskId);
+  Future<bool> resumeTask(
+      DateTime? pausedTime, DateTime resumeTime, int taskId) {
+    return taskRepository.resumeTask(pausedTime, resumeTime, taskId);
   }
 }

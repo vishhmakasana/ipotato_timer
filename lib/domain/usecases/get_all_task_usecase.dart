@@ -2,7 +2,7 @@ import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
 
 abstract class GetAllTaskUseCase {
-  Future<TaskEntity> getAllTask();
+  Future<List<TaskEntity>> getAllTask();
 }
 
 class GetAllTaskUseCaseImpl implements GetAllTaskUseCase {
@@ -11,7 +11,7 @@ class GetAllTaskUseCaseImpl implements GetAllTaskUseCase {
   GetAllTaskUseCaseImpl(this.taskRepository);
 
   @override
-  Future<TaskEntity> getAllTask() {
+  Future<List<TaskEntity>> getAllTask() {
     return taskRepository.getAllTask();
   }
 }

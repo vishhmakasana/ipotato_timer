@@ -5,9 +5,9 @@ abstract class TaskRepository {
 
   Future<bool> deleteTask(int taskId);
 
-  Future<TaskEntity> getAllTask();
+  Future<List<TaskEntity>> getAllTask();
 
-  Future<TaskEntity> pauseTask(DateTime pausedTime, int taskId);
+  Future<bool> pauseTask(DateTime pausedTime, int taskId);
 
-  Future<TaskEntity> resumeTask(int taskId);
+  Future<bool> resumeTask(DateTime? pausedTime, DateTime resumeTime, int taskId);
 }
