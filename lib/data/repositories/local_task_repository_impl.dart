@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:ipotato_timer/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
+import 'package:ipotato_timer/data/mapper/local_task_entity_mapper.dart';
 
 class LocalTaskRepositoryImpl implements TaskRepository {
   final TaskDatabase taskDatabase;
@@ -33,46 +34,34 @@ class LocalTaskRepositoryImpl implements TaskRepository {
     final query = taskDatabase.select(taskDatabase.tasks);
     return query
         .map(
-          (row) => TaskEntity(
-            id: row.id,
-            title: row.title,
-            description: row.description,
-            taskDuration: Duration(seconds: row.taskDuration),
-            creationTime: row.creationTime,
-            pausedTime: row.pausedTime,
-            pausedDuration: Duration(seconds: row.pausedDuration),
-          ),
+          (row) => row.toTaskEntity,
         )
         .get();
   }
 
   @override
   Future<bool> pauseTask(DateTime pausedTime, int taskId) async {
-    return (await (taskDatabase.update(taskDatabase.tasks)
-              ..where((t) => t.id.equals(taskId)))
-            .write(
-          TasksCompanion(
-            pausedTime: Value(pausedTime),
-          ),
-        ) >
-        0);
+    final query = taskDatabase.update(taskDatabase.tasks);
+    final result = await (query..where((t) => t.id.equals(taskId))).write(
+      TasksCompanion(
+        pausedTime: Value(pausedTime),
+      ),
+    );
+    return result > 0;
   }
 
   @override
   Future<bool> resumeTask(
       DateTime? pausedTime, DateTime resumeTime, int taskId) async {
     if (pausedTime == null) return false;
-
     final pausedDuration = resumeTime.difference(pausedTime);
-
-    return (await (taskDatabase.update(taskDatabase.tasks)
-              ..where((t) => t.id.equals(taskId)))
-            .write(
-          TasksCompanion(
-              pausedTime: const Value(null),
-              pausedDuration: Value(pausedDuration.inSeconds) // calculate it
-              ),
-        ) >
-        0);
+    final query = taskDatabase.update(taskDatabase.tasks);
+    final result = await (query..where((t) => t.id.equals(taskId))).write(
+      TasksCompanion(
+          pausedTime: const Value(null),
+          pausedDuration: Value(pausedDuration.inSeconds) // calculate it
+          ),
+    );
+    return result > 0;
   }
 }
