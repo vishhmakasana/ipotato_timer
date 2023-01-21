@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
-import 'package:ipotato_timer/database/database.dart';
+import 'package:ipotato_timer/core/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
 import 'package:ipotato_timer/data/mapper/local_task_entity_mapper.dart';

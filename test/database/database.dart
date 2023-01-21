@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ipotato_timer/database/database.dart';
+import 'package:ipotato_timer/core/database/database.dart';
 
 void main() {
   late TaskDatabase database;
