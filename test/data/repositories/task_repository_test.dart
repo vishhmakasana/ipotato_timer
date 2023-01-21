@@ -1,7 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ipotato_timer/data/repositories/local_task_repository_impl.dart';
-import 'package:ipotato_timer/database/database.dart';
+import 'package:ipotato_timer/core/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
 

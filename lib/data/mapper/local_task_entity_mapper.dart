@@ -1,4 +1,4 @@
-import 'package:ipotato_timer/database/database.dart';
+import 'package:ipotato_timer/core/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 
 extension ToTaskEntity on Task {
