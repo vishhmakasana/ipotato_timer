@@ -102,9 +102,12 @@ void main() {
     expect(task?.elapsedDuration, const Duration(seconds: 2));
 
     result = await repository.resumeTask(
-        creationTime.add(const Duration(seconds: 2)),
-        creationTime.add(const Duration(seconds: 5)),
-        taskId);
+        taskId: taskId,
+        pausedTime: creationTime.add(
+          const Duration(seconds: 2),
+        ),
+        resumeTime: creationTime.add(const Duration(seconds: 5)),
+        pausedDuration: Duration.zero);
     expect(result, true);
     task = await repository.getTask(taskId);
     expect(task?.isPaused, false);
