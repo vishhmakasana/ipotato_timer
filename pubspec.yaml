@@ -18,6 +18,8 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.0
   path_provider: ^2.0.0
   path: ^1.8.2
+  google_fonts: ^3.0.1
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -26,11 +28,20 @@ dev_dependencies:
   drift_dev: ^2.4.1
   build_runner: ^2.3.3
   flutter_launcher_icons: ^0.11.0
+  flutter_gen_runner:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/ic_app_icon.png"
+
+flutter_gen:
+  output: lib/gen/
+
+  integrations:
+    flutter_svg: true

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:ipotato_timer/core/di/inject.dart';
+import 'package:ipotato_timer/presentation/theme/app_theme.dart';
 import 'package:ipotato_timer/presentation/ui/pages/home_page.dart';
 
 void main() async {
@@ -12,11 +14,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'iPotato Timer',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const HomePage(),
     );
   }
