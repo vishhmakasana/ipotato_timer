@@ -13,12 +13,24 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  get_it: ^7.2.0
+  drift: ^2.4.2
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.0
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  drift_dev: ^2.4.1
+  build_runner: ^2.3.3
+  flutter_launcher_icons: ^0.11.0
 
 flutter:
-
   uses-material-design: true
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/ic_app_icon.png"
