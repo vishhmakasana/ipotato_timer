@@ -1,9 +1,9 @@
-import 'package:ipotato_timer/core/database/database.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
+import 'package:ipotato_timer/presentation/states/task_state.dart';
 
-extension DtoToTaskEntity on Task {
-  TaskEntity get toTaskEntity => TaskEntity(
-        id: id,
+extension StateToTaskEntity on Task {
+  TaskEntity get toTaskState => TaskEntity(
+        id: id!,
         title: title,
         description: description,
         taskDuration: Duration(seconds: taskDuration),

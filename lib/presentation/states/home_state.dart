@@ -1,13 +1,19 @@
+import 'dart:async';
+
 import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
+import 'package:ipotato_timer/domain/mapper/task_state_mapper.dart';
 import 'package:ipotato_timer/domain/usecases/usecases.dart';
+import 'package:ipotato_timer/presentation/extensions/extensions.dart';
+import 'package:ipotato_timer/presentation/states/task_state.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_state.g.dart';
 
-class HomeState = HomeStateBase with _$HomeState;
+// ignore: library_private_types_in_public_api
+class HomeState = _HomeState with _$HomeState;
 
-abstract class HomeStateBase with Store {
+abstract class _HomeState with Store {
   final _getAllTasksUseCase = GetIt.I.get<GetAllTaskUseCase>();
   final _addTaskUseCase = GetIt.I.get<AddTaskUseCase>();
   final _getTasksUseCase = GetIt.I.get<GetTaskUseCase>();
@@ -16,20 +22,51 @@ abstract class HomeStateBase with Store {
   final _deleteTaskUseCase = GetIt.I.get<DeleteTaskUseCase>();
 
   @observable
+  int timeElapsed = 0;
+
+  @observable
   bool isLoading = false;
 
   @observable
-  ObservableList<TaskEntity> _tasks = ObservableList<TaskEntity>();
+  ObservableList<Task> _tasks = ObservableList.of([]);
 
   @computed
-  ObservableList<TaskEntity> get sortedTasks =>
-      ObservableList.of(_tasks.sorted());
+  ObservableList<Task> get sortedTasks {
+    // debugPrint('sortedTasks computed');
+    return ObservableList.of(_tasks.sorted());
+  }
+
+  @computed
+  int get activeTaskCount {
+    // debugPrint('activeTaskCount computed');
+    return _tasks.where((element) => !element.isFinished).length;
+  }
+
+  @computed
+  bool get isNoTasksFound => _tasks.isEmpty;
+
+  @readonly
+  Timer? _mTimer;
 
   @action
   Future<void> initialize() async {
     isLoading = true;
     await _loadAllTasks();
     isLoading = false;
+    startTimer();
+  }
+
+  @action
+  startTimer() {
+    if (_mTimer != null && _mTimer!.isActive) return;
+    _mTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (_tasks.isEmpty || activeTaskCount == 0) return;
+        timeElapsed++;
+        updateFinishedStatus();
+      },
+    );
   }
 
   @action
@@ -45,7 +82,6 @@ abstract class HomeStateBase with Store {
     required String description,
     required Duration taskDuration,
   }) async {
-    isLoading = true;
     final creationTime = DateTime.now();
 
     TaskEntity task = TaskEntity(
@@ -57,8 +93,7 @@ abstract class HomeStateBase with Store {
 
     final taskId = await _addTaskUseCase.addTask(task);
     task.id = taskId;
-    _tasks.add(task);
-    isLoading = false;
+    _tasks.add(task.toTaskState);
     return taskId;
   }
 
@@ -72,7 +107,7 @@ abstract class HomeStateBase with Store {
       final updatedTask = await _getTasksUseCase.getTask(taskId);
       if (updatedTask != null) {
         _tasks[_tasks.indexWhere((element) => element.id == taskId)] =
-            updatedTask;
+            updatedTask.toTaskState;
       }
     }
     return true;
@@ -98,7 +133,7 @@ abstract class HomeStateBase with Store {
     final updatedTask = await _getTasksUseCase.getTask(taskId);
     if (updatedTask != null) {
       _tasks[_tasks.indexWhere((element) => element.id == taskId)] =
-          updatedTask;
+          updatedTask.toTaskState;
     }
     return true;
   }
@@ -126,22 +161,15 @@ abstract class HomeStateBase with Store {
       taskId,
     );
   }
-}
 
-extension ToInt on bool {
-  int toInteger() => this ? 1 : 0;
-}
-
-extension Sorted on List<TaskEntity> {
-  List<TaskEntity> sorted() => [...this]..sort(
-      (lhs, rhs) {
-        final isFinished = lhs.isFinished.toInteger().compareTo(
-              rhs.isFinished.toInteger(),
-            );
-        if (isFinished != 0) {
-          return isFinished;
-        }
-        return rhs.creationTime.compareTo(lhs.creationTime);
-      },
-    );
+  void updateFinishedStatus() {
+    _tasks
+        .where((element) => !element.isFinished && !element.isPaused)
+        .forEach((element) {
+      if (element.remainingDuration <= 0) {
+        element.isFinished = true;
+        // TODO : play nice sound here
+      }
+    });
+  }
 }
