@@ -1,8 +1,9 @@
-import 'package:ipotato_timer/domain/entities/task_entity.dart';
+import 'package:ipotato_timer/domain/mapper/task_state_mapper.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
+import 'package:ipotato_timer/presentation/states/task_state.dart';
 
 abstract class GetAllTaskUseCase {
-  Future<List<TaskEntity>> getAllTask();
+  Future<List<Task>> getAllTask();
 }
 
 class GetAllTaskUseCaseImpl implements GetAllTaskUseCase {
@@ -11,7 +12,8 @@ class GetAllTaskUseCaseImpl implements GetAllTaskUseCase {
   GetAllTaskUseCaseImpl(this.taskRepository);
 
   @override
-  Future<List<TaskEntity>> getAllTask() {
-    return taskRepository.getAllTask();
+  Future<List<Task>> getAllTask() async {
+    final results = await taskRepository.getAllTask();
+    return Future.value(results.map((e) => e.toTaskState).toList());
   }
 }

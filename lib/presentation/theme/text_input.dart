@@ -12,3 +12,13 @@ TextStyle getHintTextStyle({required BuildContext context, Color? color}) {
         color: color ?? Theme.of(context).colorScheme.outline,
       );
 }
+
+InputDecoration getInputBorderDuration(BuildContext context) {
+  return InputDecoration(
+    border: InputBorder.none,
+    hintText: '00',
+    counterText: "",
+    filled: true,
+    fillColor: Theme.of(context).colorScheme.secondaryContainer,
+  );
+}
