@@ -11,6 +11,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsAudioGen {
+  const $AssetsAudioGen();
+
+  /// File path: assets/audio/sound_complete.mp3
+  String get soundComplete => 'assets/audio/sound_complete.mp3';
+
+  /// List of all assets
+  List<String> get values => [soundComplete];
+}
+
 class $AssetsIconGen {
   const $AssetsIconGen();
 
@@ -53,6 +63,7 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
