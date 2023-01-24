@@ -33,6 +33,9 @@ class TaskListItem extends StatelessWidget {
         onDismissed: (_) {
           homeState.deleteTask(taskId: listItem.id);
         },
+        background: Container(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
         direction: listItem.isFinished
             ? DismissDirection.horizontal
             : DismissDirection.none,
@@ -68,7 +71,8 @@ class TaskListItem extends StatelessWidget {
                           width: 8,
                         ),
                         InkWell(
-                          child: Assets.icon.icStopButtonSolid.svg(),
+                          child: Assets.icon.icStopButtonSolid.svg(
+                              color: Theme.of(context).colorScheme.tertiary),
                           onTap: () {
                             homeState.deleteTask(taskId: listItem.id);
                           },
