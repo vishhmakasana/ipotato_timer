@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/mapper/task_state_mapper.dart';
+import 'package:ipotato_timer/domain/usecases/play_sound_usecase.dart';
 import 'package:ipotato_timer/domain/usecases/usecases.dart';
 import 'package:ipotato_timer/presentation/extensions/extensions.dart';
 import 'package:ipotato_timer/presentation/states/task_state.dart';
@@ -168,7 +169,7 @@ abstract class _HomeState with Store {
         .forEach((element) {
       if (element.remainingDuration <= 0) {
         element.isFinished = true;
-        // TODO : play nice sound here
+        GetIt.I.get<PlaySoundUseCase>().playAudio();
       }
     });
   }
