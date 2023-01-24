@@ -21,3 +21,15 @@ extension Sorted on List<Task> {
 extension ToDuration on int {
   Duration toDuration() => Duration(seconds: this);
 }
+
+extension StringToInt on String {
+  int toInt() => isEmpty ? 0 : int.parse(this);
+}
+
+extension HourToSeconds on int {
+  int hToSeconds() => this * 60 * 60;
+}
+
+extension MinuteToSeconds on int {
+  int mToSeconds() => this * 60;
+}
