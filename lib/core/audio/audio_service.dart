@@ -4,6 +4,8 @@ abstract class AudioService {
   void playLocalAudio(String audioPath);
 
   void pauseLocalAudio();
+
+  void dispose();
 }
 
 class JustAudioService implements AudioService {
@@ -21,5 +23,10 @@ class JustAudioService implements AudioService {
     if (player.playing) return;
     await player.setAsset(audioPath);
     player.play();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
   }
 }
