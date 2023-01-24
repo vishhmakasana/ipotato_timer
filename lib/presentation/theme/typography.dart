@@ -23,7 +23,7 @@ TextTheme getTextTheme(ColorScheme currentColorScheme) {
       height: 44 / 36,
     ),
     headlineLarge: GoogleFonts.roboto(
-      color: currentColorScheme.onSurfaceVariant,
+      color: currentColorScheme.primary,
       fontWeight: FontWeight.w400,
       fontSize: 32,
       height: 40 / 32,
@@ -42,7 +42,7 @@ TextTheme getTextTheme(ColorScheme currentColorScheme) {
     ),
     titleLarge: GoogleFonts.roboto(
       color: currentColorScheme.onSurfaceVariant,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w500,
       fontSize: 22,
       height: 28 / 22,
     ),

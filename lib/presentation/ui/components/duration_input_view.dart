@@ -4,10 +4,10 @@ import 'package:ipotato_timer/presentation/states/add_task_form_state.dart';
 import 'package:ipotato_timer/presentation/theme/text_input.dart';
 import 'package:provider/provider.dart';
 
-class DurationInput extends StatelessWidget {
+class DurationInputView extends StatelessWidget {
   final void Function() onSubmit;
 
-  const DurationInput({Key? key, required this.onSubmit}) : super(key: key);
+  const DurationInputView({Key? key, required this.onSubmit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

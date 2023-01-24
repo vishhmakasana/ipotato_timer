@@ -4,8 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/gen/assets.gen.dart';
 import 'package:ipotato_timer/presentation/states/home_state.dart';
 
-class AddTaskSuggestion extends StatelessWidget {
-  const AddTaskSuggestion({Key? key}) : super(key: key);
+class AddTaskSuggestionView extends StatelessWidget {
+  const AddTaskSuggestionView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

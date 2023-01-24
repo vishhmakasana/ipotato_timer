@@ -33,3 +33,8 @@ extension HourToSeconds on int {
 extension MinuteToSeconds on int {
   int mToSeconds() => this * 60;
 }
+
+extension FormattedTime on int {
+  String toFormattedTime() =>
+      '${(Duration(seconds: this))}'.split('.')[0].padLeft(8, '0');
+}
