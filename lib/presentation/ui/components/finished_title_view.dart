@@ -15,6 +15,7 @@ class FinishedTitleView extends StatelessWidget {
         ),
         Text(
           'FINISHED',
+          key: const ValueKey('txt_finished'),
           style: Theme.of(context).textTheme.headlineLarge,
         ),
         const SizedBox(
