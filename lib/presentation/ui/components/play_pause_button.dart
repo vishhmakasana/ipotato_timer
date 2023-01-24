@@ -15,8 +15,8 @@ class PlayPauseButton extends StatelessWidget {
     final listItem = homeState.sortedTasks[index];
     return InkWell(
       child: listItem.isPaused
-          ? Assets.icon.icPlayButtonSolid.svg()
-          : Assets.icon.icPauseButtonSolid.svg(),
+          ? Assets.icon.icPlayButtonSolid.svg(color: Theme.of(context).colorScheme.tertiary)
+          : Assets.icon.icPauseButtonSolid.svg(color: Theme.of(context).colorScheme.tertiary),
       onTap: () {
         if (listItem.isPaused) {
           if (listItem.pausedTime != null) {
