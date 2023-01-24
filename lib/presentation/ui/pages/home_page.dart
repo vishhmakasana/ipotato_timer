@@ -1,4 +1,3 @@
-import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/core/audio/audio_service.dart';
@@ -16,13 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final options = const LiveOptions(
-    delay: Duration(milliseconds: 200),
-    showItemInterval: Duration(milliseconds: 200),
-    visibleFraction: 0.05,
-    reAnimateOnVisibility: false,
-  );
-
   @override
   void initState() {
     super.initState();
@@ -77,29 +69,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// not satisfied with the result
-// return Padding(
-//   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//   child: LiveList.options(
-//     padding: const EdgeInsets.only(
-//         bottom: kFloatingActionButtonMargin + 72, top: 16),
-//     options: options,
-//     itemBuilder: (
-//       context,
-//       index,
-//       animation,
-//     ) =>
-//         TaskListItem(
-//       index: index,
-//       animation: animation,
-//     ),
-//     scrollDirection: Axis.vertical,
-//     itemCount: homeState.sortedTasks.length,
-//     separatorBuilder: (BuildContext context, int index) {
-//       return const SizedBox(
-//         height: 16,
-//       );
-//     },
-//   ),
-// );
