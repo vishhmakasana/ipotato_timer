@@ -1,7 +1,8 @@
+import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
 
 abstract class DeleteTaskUseCase {
-  Future<bool> deleteTask(int taskId);
+  Future<bool> deleteTask(TaskId taskId);
 }
 
 class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
@@ -10,7 +11,7 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
   DeleteTaskUseCaseImpl(this.taskRepository);
 
   @override
-  Future<bool> deleteTask(int taskId) {
+  Future<bool> deleteTask(TaskId taskId) {
     return taskRepository.deleteTask(taskId);
   }
 }

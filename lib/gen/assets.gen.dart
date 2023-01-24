@@ -11,6 +11,40 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsAudioGen {
+  const $AssetsAudioGen();
+
+  /// File path: assets/audio/sound_complete.mp3
+  String get soundComplete => 'assets/audio/sound_complete.mp3';
+
+  /// List of all assets
+  List<String> get values => [soundComplete];
+}
+
+class $AssetsIconGen {
+  const $AssetsIconGen();
+
+  /// File path: assets/icon/ic_app_icon.png
+  AssetGenImage get icAppIcon =>
+      const AssetGenImage('assets/icon/ic_app_icon.png');
+
+  /// File path: assets/icon/ic_pause_button_solid.svg
+  SvgGenImage get icPauseButtonSolid =>
+      const SvgGenImage('assets/icon/ic_pause_button_solid.svg');
+
+  /// File path: assets/icon/ic_play_button_solid.svg
+  SvgGenImage get icPlayButtonSolid =>
+      const SvgGenImage('assets/icon/ic_play_button_solid.svg');
+
+  /// File path: assets/icon/ic_stop_button_solid.svg
+  SvgGenImage get icStopButtonSolid =>
+      const SvgGenImage('assets/icon/ic_stop_button_solid.svg');
+
+  /// List of all assets
+  List<dynamic> get values =>
+      [icAppIcon, icPauseButtonSolid, icPlayButtonSolid, icStopButtonSolid];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -29,6 +63,8 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAudioGen audio = $AssetsAudioGen();
+  static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

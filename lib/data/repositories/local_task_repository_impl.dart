@@ -24,7 +24,8 @@ class LocalTaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<TaskEntity?> getTask(int taskId) async {
+  Future<TaskEntity?> getTask(TaskId taskId) async {
+    if (taskId == null) return Future.value(null);
     final query = taskDatabase.select(taskDatabase.tasks);
     return (await (query..where((t) => t.id.equals(taskId))).getSingleOrNull())
         ?.toTaskEntity;
@@ -41,7 +42,8 @@ class LocalTaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<bool> deleteTask(int taskId) async {
+  Future<bool> deleteTask(TaskId taskId) async {
+    if (taskId == null) return Future.value(false);
     final deleted = await (taskDatabase.delete(taskDatabase.tasks)
           ..where((t) => t.id.equals(taskId)))
         .go();
@@ -49,7 +51,8 @@ class LocalTaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<bool> pauseTask(DateTime pausedTime, int taskId) async {
+  Future<bool> pauseTask(DateTime pausedTime, TaskId taskId) async {
+    if (taskId == null) return Future.value(false);
     final query = taskDatabase.update(taskDatabase.tasks);
     final result = await (query..where((t) => t.id.equals(taskId))).write(
       TasksCompanion(
@@ -60,16 +63,21 @@ class LocalTaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<bool> resumeTask(
-      DateTime? pausedTime, DateTime resumeTime, int taskId) async {
-    if (pausedTime == null) return false;
-    final pausedDuration = resumeTime.difference(pausedTime);
+  Future<bool> resumeTask({
+    required Duration pausedDuration,
+    required DateTime? pausedTime,
+    required DateTime resumeTime,
+    required TaskId taskId,
+  }) async {
+    if (pausedTime == null || taskId == null) return false;
+    final currPausedDuration = resumeTime.difference(pausedTime);
     final query = taskDatabase.update(taskDatabase.tasks);
     final result = await (query..where((t) => t.id.equals(taskId))).write(
       TasksCompanion(
-          pausedTime: const Value(null),
-          pausedDuration: Value(pausedDuration.inSeconds) // calculate it
-          ),
+        pausedTime: const Value(null),
+        pausedDuration:
+            Value(pausedDuration.inSeconds + currPausedDuration.inSeconds),
+      ),
     );
     return result > 0;
   }

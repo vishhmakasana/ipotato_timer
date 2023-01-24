@@ -1,43 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:ipotato_timer/presentation/theme/text_input.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ipotato_timer/core/audio/audio_service.dart';
+import 'package:ipotato_timer/presentation/states/home_state.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:ipotato_timer/presentation/ui/components/add_task_floating_button.dart';
+import 'package:ipotato_timer/presentation/ui/components/add_task_suggestion_view.dart';
+import 'package:ipotato_timer/presentation/ui/components/task_list_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    GetIt.I.get<AudioService>().dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final homeState = GetIt.I.get<HomeState>()..initialize();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Potato Timer'),
       ),
-      body: Column(
-        // checking the design system for basic component
-        children: [
-          Text(
-            'Title',
-            style: Theme.of(context).textTheme.headline1,
+      body: Observer(builder: (context) {
+        if (homeState.isLoading) {
+          return const Center(child: CircularProgressIndicator.adaptive());
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: ListView.separated(
+            padding: const EdgeInsets.only(
+                bottom: kFloatingActionButtonMargin + 72, top: 16),
+            itemBuilder: (context, index) {
+              return TaskListItem(index: index);
+            },
+            itemCount: homeState.sortedTasks.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(
+                height: 16,
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: inputBorder,
-                hintText: 'Enter task title',
-                labelText: 'Title',
-                hintStyle: getHintTextStyle(context: context),
-                labelStyle: getHintTextStyle(context: context),
-                floatingLabelStyle: getHintTextStyle(
-                    context: context,
-                    color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            style: Theme.of(context).textButtonTheme.style,
-            child:  const Text('Add Task'),
-          ),
-        ],
+        );
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: kFloatingActionButtonMargin),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            AddTaskSuggestionView(),
+            AddTaskFloatingButton(),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,8 @@
+typedef TaskId = int?;
+
 class TaskEntity {
   /// an optional integer that can be used to identify the task.
-  final int? id;
+  TaskId id;
 
   /// a required string that represents the title of the task.
   final String title;
