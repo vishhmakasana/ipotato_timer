@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(
                 bottom: kFloatingActionButtonMargin + 72, top: 16),
             itemBuilder: (context, index) {
-              return TaskListItem(index: index);
+              return TaskListItem(listItem: homeState.sortedTasks[index]);
             },
             itemCount: homeState.sortedTasks.length,
             separatorBuilder: (BuildContext context, int index) {

@@ -12,6 +12,7 @@ class MarkCompleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeState = context.read<HomeState>();
     return TextButton(
+      key: const ValueKey('btn_mark_complete'),
       onPressed: () {
         homeState.deleteTask(taskId: taskId);
       },

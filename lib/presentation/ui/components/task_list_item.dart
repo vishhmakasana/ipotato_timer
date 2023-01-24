@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/gen/assets.gen.dart';
 import 'package:ipotato_timer/presentation/states/home_state.dart';
+import 'package:ipotato_timer/presentation/states/task_state.dart';
 import 'package:ipotato_timer/presentation/ui/components/finished_title_view.dart';
 import 'package:ipotato_timer/presentation/ui/components/mark_complete_button.dart';
 import 'package:ipotato_timer/presentation/ui/components/play_pause_button.dart';
@@ -10,19 +11,19 @@ import 'package:ipotato_timer/presentation/ui/components/remaining_duration_text
 import 'package:provider/provider.dart';
 
 class TaskListItem extends StatelessWidget {
+
   const TaskListItem({
     Key? key,
-    required this.index,
+    required this.listItem,
   }) : super(key: key);
 
-  final int index;
+  final Task listItem;
 
   @override
   Widget build(BuildContext context) {
     final homeState = GetIt.I.get<HomeState>();
 
     return Observer(builder: (context) {
-      final listItem = homeState.sortedTasks[index];
       // Used to listen for the time update
       //ignore: unused_local_variable
       int seconds = 0;
@@ -66,7 +67,7 @@ class TaskListItem extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        PlayPauseButton(index: index),
+                        PlayPauseButton(listItem: listItem),
                         const SizedBox(
                           width: 8,
                         ),

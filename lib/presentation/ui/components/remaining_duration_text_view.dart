@@ -4,7 +4,8 @@ import 'package:ipotato_timer/presentation/extensions/extensions.dart';
 class RemainingDurationTextView extends StatelessWidget {
   final int duration;
 
-  const RemainingDurationTextView({Key? key, required this.duration}) : super(key: key);
+  const RemainingDurationTextView({Key? key, required this.duration})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class RemainingDurationTextView extends StatelessWidget {
       children: [
         Text(
           duration.toFormattedTime(),
+          key: const ValueKey('txt_remaining'),
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ],
