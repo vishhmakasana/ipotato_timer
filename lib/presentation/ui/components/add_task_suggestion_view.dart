@@ -20,7 +20,7 @@ class AddTaskSuggestionView extends StatelessWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.only(top: 8.0, right: 8),
-                child: Text('No timers active.\nPress here to start a new one'),
+                child: Text('No timers found.\nPress here to start a new one'),
               ),
               Assets.images.imgPointerDown.svg(),
             ],

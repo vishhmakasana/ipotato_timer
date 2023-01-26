@@ -7,6 +7,7 @@ class AddTaskFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      key: const ValueKey('btn_add_task'),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       onPressed: () {
         showAddTaskDialog(context: context);

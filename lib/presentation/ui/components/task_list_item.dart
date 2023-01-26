@@ -72,6 +72,7 @@ class TaskListItem extends StatelessWidget {
                           width: 8,
                         ),
                         InkWell(
+                          key: const ValueKey('ic_stop'),
                           child: Assets.icon.icStopButtonSolid.svg(
                               color: Theme.of(context).colorScheme.tertiary),
                           onTap: () {
