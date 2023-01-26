@@ -65,6 +65,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                           ? Padding(
                               padding: const EdgeInsets.only(left: 24.0),
                               child: Text(
+                                key: const ValueKey('text_duration_error'),
                                 addTaskState.error.duration!,
                                 style: getErrorTextStyle(context: context),
                               ),
@@ -78,6 +79,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                 ),
               ),
               TextButton(
+                key: const ValueKey('btn_save_task'),
                 onPressed: () {
                   addTask(context);
                 },

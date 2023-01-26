@@ -14,6 +14,7 @@ class TitleTextField extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Observer(builder: (context) {
         return TextField(
+          key: const ValueKey('text_field_title'),
           onChanged: (value) => addTaskState.title = value,
           textInputAction: TextInputAction.next,
           maxLength: 50,
