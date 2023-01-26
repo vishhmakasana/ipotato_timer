@@ -31,6 +31,22 @@ mixin _$HomeState on _HomeState, Store {
               name: '_HomeState.isNoTasksFound'))
           .value;
 
+  late final _$errorMessageAtom =
+      Atom(name: '_HomeState.errorMessage', context: context);
+
+  @override
+  String? get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String? value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
   late final _$timeElapsedAtom =
       Atom(name: '_HomeState.timeElapsed', context: context);
 
@@ -178,6 +194,7 @@ mixin _$HomeState on _HomeState, Store {
   @override
   String toString() {
     return '''
+errorMessage: ${errorMessage},
 timeElapsed: ${timeElapsed},
 isLoading: ${isLoading},
 sortedTasks: ${sortedTasks},

@@ -23,6 +23,15 @@ abstract class _HomeState with Store {
   final _pauseTaskUseCase = GetIt.I.get<PauseTaskUseCase>();
   final _resumeTaskUseCase = GetIt.I.get<ResumeTaskUseCase>();
   final _deleteTaskUseCase = GetIt.I.get<DeleteTaskUseCase>();
+  final _playSoundUseCase = GetIt.I.get<PlaySoundUseCase>();
+
+  // TODO : use this to show errors snack bar remote repository
+  @observable
+  String? errorMessage;
+
+  // TODO : use this to show loading dialog for remote repository
+  @observable
+  bool showLoadingDialog = false;
 
   @observable
   int timeElapsed = 0;
@@ -83,6 +92,8 @@ abstract class _HomeState with Store {
     required String description,
     required Duration taskDuration,
   }) async {
+    showLoadingDialog = true;
+
     final creationTime = DateTime.now();
 
     TaskEntity task = TaskEntity(
@@ -92,28 +103,40 @@ abstract class _HomeState with Store {
       taskDuration: taskDuration,
     );
 
-    final taskId = await _addTaskUseCase.addTask(task);
-    // TODO handle fail case in case if remote data source
-    task.id = taskId;
-    _tasks.add(task.toTaskState);
-    return taskId;
+    final result = await _addTaskUseCase.addTask(task);
+    showLoadingDialog = false;
+    if (result.isSuccess()) {
+      final taskId = result.tryGetSuccess();
+      task.id = taskId;
+      _tasks.add(task.toTaskState);
+      return taskId;
+    } else {
+      final error = result.tryGetError();
+      errorMessage = error.toString();
+      return null;
+    }
   }
 
   @action
   Future<bool> pauseTask({
     required TaskId taskId,
   }) async {
+    showLoadingDialog = true;
     final pauseTime = DateTime.now();
     final result = await _pauseTaskUseCase.pauseTask(pauseTime, taskId);
-    // TODO handle fail case in case if remote data source
-    if (result) {
-      final updatedTask = await _getTasksUseCase.getTask(taskId);
-      if (updatedTask != null) {
-        _tasks[_tasks.indexWhere((element) => element.id == taskId)] =
-            updatedTask.toTaskState;
-      }
+    if (result.isSuccess()) {
+      final result = await _getTasksUseCase.getTask(taskId);
+      showLoadingDialog = false;
+      result.whenSuccess((task) {
+        updateInMemoryTask(task);
+      });
+      return true;
+    } else {
+      showLoadingDialog = false;
+      final error = result.tryGetError();
+      errorMessage = error.toString();
+      return false;
     }
-    return true;
   }
 
   @action
@@ -124,46 +147,62 @@ abstract class _HomeState with Store {
   }) async {
     if (pausedTime == null) return Future.value(false);
     final resumeTime = DateTime.now();
+    showLoadingDialog = true;
     final result = await _resumeTaskUseCase.resumeTask(
       pausedDuration: pausedDuration,
       pausedTime: pausedTime,
       taskId: taskId,
       resumeTime: resumeTime,
     );
-
-    // TODO handle fail case in case if remote data source
-    if (!result) return false;
-
-    final updatedTask = await _getTasksUseCase.getTask(taskId);
-    if (updatedTask != null) {
-      _tasks[_tasks.indexWhere((element) => element.id == taskId)] =
-          updatedTask.toTaskState;
+    if (result.isSuccess()) {
+      final result = await _getTasksUseCase.getTask(taskId);
+      result.whenSuccess((task) {
+        showLoadingDialog = false;
+        updateInMemoryTask(task);
+      });
+      return true;
+    } else {
+      showLoadingDialog = false;
+      final error = result.tryGetError();
+      errorMessage = error.toString();
+      return false;
     }
-    return true;
   }
 
   @action
   Future<bool> deleteTask({
     required TaskId taskId,
   }) async {
+    showLoadingDialog = true;
     final result = await _deleteTaskUseCase.deleteTask(
       taskId,
     );
-
-    if (!result) return false;
-
-    _tasks.removeWhere((element) => element.id == taskId);
-
-    return true;
+    showLoadingDialog = false;
+    if (result.isSuccess()) {
+      _tasks.removeWhere((element) => element.id == taskId);
+      return true;
+    } else {
+      final error = result.tryGetError();
+      errorMessage = error.toString();
+      return false;
+    }
   }
 
   @action
   Future<TaskEntity?> getTask({
     required TaskId taskId,
   }) async {
-    return await _getTasksUseCase.getTask(
+    final result = await _getTasksUseCase.getTask(
       taskId,
     );
+    if (result.isSuccess()) {
+      final task = result.tryGetSuccess();
+      return task;
+    } else {
+      final error = result.tryGetError();
+      errorMessage = error.toString();
+      return null;
+    }
   }
 
   void updateFinishedStatus() {
@@ -172,15 +211,20 @@ abstract class _HomeState with Store {
         .forEach((element) {
       if (element.remainingDuration <= 0) {
         element.isFinished = true;
-        GetIt.I.get<PlaySoundUseCase>().playAudio();
+        _playSoundUseCase.playAudio();
       }
     });
   }
 
-  void dispose() {
+  Future<void> dispose() async {
     _mTimer?.cancel();
     GetIt.I.get<AudioService>().dispose();
-    GetIt.I.get<db.TaskDatabase>().close();
-    GetIt.I.reset();
+    await GetIt.I.get<db.TaskDatabase>().close();
+    await GetIt.I.reset();
+  }
+
+  void updateInMemoryTask(TaskEntity updatedTask) {
+    _tasks[_tasks.indexWhere((element) => element.id == updatedTask.id)] =
+        updatedTask.toTaskState;
   }
 }

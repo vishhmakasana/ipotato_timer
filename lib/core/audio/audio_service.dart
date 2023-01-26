@@ -21,14 +21,13 @@ class JustAudioService implements AudioService {
 
   @override
   void playLocalAudio(String audioPath) async {
-    if (player.playing) return;
     await player.setAsset(audioPath);
     player.play();
   }
 
   @override
-  void dispose() {
-    player.dispose();
+  void dispose() async {
+    await player.dispose();
   }
 }
 

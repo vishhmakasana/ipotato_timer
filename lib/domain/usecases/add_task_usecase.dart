@@ -1,8 +1,9 @@
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/repositories/task_repository.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 abstract class AddTaskUseCase {
-  Future<int> addTask(TaskEntity taskEntity);
+  Future<Result<int, Exception>> addTask(TaskEntity taskEntity);
 }
 
 class AddTaskUseCaseImpl implements AddTaskUseCase {
@@ -11,7 +12,12 @@ class AddTaskUseCaseImpl implements AddTaskUseCase {
   AddTaskUseCaseImpl(this.taskRepository);
 
   @override
-  Future<int> addTask(TaskEntity taskEntity) {
-    return taskRepository.addTask(taskEntity);
+  Future<Result<int, Exception>> addTask(TaskEntity taskEntity) async {
+    try {
+      final result = await taskRepository.addTask(taskEntity);
+      return Success(result);
+    } catch (e) {
+      return Error(Exception(e.toString()));
+    }
   }
 }

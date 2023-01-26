@@ -22,9 +22,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void dispose() {
-    widget.homeState.dispose();
+  void dispose() async {
     super.dispose();
+    await widget.homeState.dispose();
   }
 
   @override
