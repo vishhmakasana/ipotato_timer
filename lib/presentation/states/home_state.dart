@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:get_it/get_it.dart';
+import 'package:ipotato_timer/core/audio/audio_service.dart';
+import 'package:ipotato_timer/core/database/database.dart' as db;
 import 'package:ipotato_timer/domain/entities/task_entity.dart';
 import 'package:ipotato_timer/domain/mapper/task_state_mapper.dart';
 import 'package:ipotato_timer/domain/usecases/play_sound_usecase.dart';
@@ -33,13 +35,11 @@ abstract class _HomeState with Store {
 
   @computed
   ObservableList<Task> get sortedTasks {
-    // debugPrint('sortedTasks computed');
     return ObservableList.of(_tasks.sorted());
   }
 
   @computed
   int get activeTaskCount {
-    // debugPrint('activeTaskCount computed');
     return _tasks.where((element) => !element.isFinished).length;
   }
 
@@ -93,6 +93,7 @@ abstract class _HomeState with Store {
     );
 
     final taskId = await _addTaskUseCase.addTask(task);
+    // TODO handle fail case in case if remote data source
     task.id = taskId;
     _tasks.add(task.toTaskState);
     return taskId;
@@ -104,6 +105,7 @@ abstract class _HomeState with Store {
   }) async {
     final pauseTime = DateTime.now();
     final result = await _pauseTaskUseCase.pauseTask(pauseTime, taskId);
+    // TODO handle fail case in case if remote data source
     if (result) {
       final updatedTask = await _getTasksUseCase.getTask(taskId);
       if (updatedTask != null) {
@@ -129,6 +131,7 @@ abstract class _HomeState with Store {
       resumeTime: resumeTime,
     );
 
+    // TODO handle fail case in case if remote data source
     if (!result) return false;
 
     final updatedTask = await _getTasksUseCase.getTask(taskId);
@@ -172,5 +175,12 @@ abstract class _HomeState with Store {
         GetIt.I.get<PlaySoundUseCase>().playAudio();
       }
     });
+  }
+
+  void dispose() {
+    _mTimer?.cancel();
+    GetIt.I.get<AudioService>().dispose();
+    GetIt.I.get<db.TaskDatabase>().close();
+    GetIt.I.reset();
   }
 }

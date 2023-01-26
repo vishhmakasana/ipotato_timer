@@ -14,6 +14,7 @@ class DescriptionTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Observer(builder: (context) {
         return TextField(
+          key: const ValueKey('text_field_description'),
           minLines: 3,
           maxLines: 3,
           maxLength: 300,

@@ -62,7 +62,7 @@ abstract class _AddTaskState with Store {
 
   @action
   void validateDuration(int duration) {
-    error.duration = duration == 0 ? 'Duration cannot be zero' : null;
+    error.duration = duration == 0 ? 'Task duration cannot be zero' : null;
   }
 
   void dispose() {

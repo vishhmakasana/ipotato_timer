@@ -25,6 +25,7 @@ class DurationInputView extends StatelessWidget {
                   child: Column(
                     children: [
                       TextField(
+                        key: const ValueKey('text_field_hour'),
                         textInputAction: TextInputAction.next,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.digitsOnly
@@ -53,6 +54,7 @@ class DurationInputView extends StatelessWidget {
                     child: Column(
                       children: [
                         TextField(
+                          key: const ValueKey('text_field_minute'),
                           textInputAction: TextInputAction.next,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
@@ -81,6 +83,7 @@ class DurationInputView extends StatelessWidget {
                   child: Column(
                     children: [
                       TextField(
+                        key: const ValueKey('text_field_second'),
                         onSubmitted: (value) async {
                           onSubmit();
                         },

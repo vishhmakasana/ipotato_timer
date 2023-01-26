@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:ipotato_timer/core/audio/audio_service.dart';
 import 'package:ipotato_timer/presentation/states/home_state.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ipotato_timer/presentation/ui/components/add_task_floating_button.dart';
@@ -25,8 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    GetIt.I.get<AudioService>().dispose();
-    widget.homeState.mTimer?.cancel();
+    widget.homeState.dispose();
     super.dispose();
   }
 
@@ -47,7 +44,11 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(
                 bottom: kFloatingActionButtonMargin + 72, top: 16),
             itemBuilder: (context, index) {
-              return TaskListItem(listItem: homeState.sortedTasks[index]);
+              return TaskListItem(
+                listItem: homeState.sortedTasks[index],
+                key: ValueKey(
+                    'task_list_item_${homeState.sortedTasks[index].id}'),
+              );
             },
             itemCount: homeState.sortedTasks.length,
             separatorBuilder: (BuildContext context, int index) {
