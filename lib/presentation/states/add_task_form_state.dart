@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/presentation/extensions/extensions.dart';
 import 'package:ipotato_timer/presentation/states/home_state.dart';
@@ -48,11 +47,11 @@ abstract class _AddTaskState with Store {
 
   @action
   void validateTitle(String? value) {
-    if (value == null || value.isEmpty) {
-      error.title = 'Title cannot be blank';
-      return;
-    }
-    error.title = null;
+    error.title = value == null || value.isEmpty
+        ? 'Title cannot be blank'
+        : value.length < 3
+            ? 'Title should be at least 3 characters long'
+            : null;
   }
 
   @action
@@ -73,13 +72,9 @@ abstract class _AddTaskState with Store {
   }
 
   Future<bool> validateAll() async {
-    debugPrint('validateAll');
     validateTitle(title);
     validateDescription(description);
     validateDuration(duration);
-
-    debugPrint('canAddTask : $canAddTask');
-
     if (canAddTask) {
       await GetIt.I.get<HomeState>().addTask(
             title: title,

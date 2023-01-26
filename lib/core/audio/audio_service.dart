@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
 abstract class AudioService {
@@ -28,5 +29,22 @@ class JustAudioService implements AudioService {
   @override
   void dispose() {
     player.dispose();
+  }
+}
+
+class MockAudioService implements AudioService {
+  @override
+  void pauseLocalAudio() async {
+    debugPrint('pauseLocalAudio');
+  }
+
+  @override
+  void playLocalAudio(String audioPath) async {
+    debugPrint('playLocalAudio');
+  }
+
+  @override
+  void dispose() {
+    debugPrint('audio player disposed');
   }
 }
