@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ipotato_timer/core/di/inject.dart';
+import 'package:ipotato_timer/presentation/states/home_state.dart';
 import 'package:ipotato_timer/presentation/theme/app_theme.dart';
 import 'package:ipotato_timer/presentation/ui/pages/home_page.dart';
 
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: const HomePage(),
+      home: HomePage(
+        homeState: GetIt.I.get<HomeState>(),
+      ),
     );
   }
 }

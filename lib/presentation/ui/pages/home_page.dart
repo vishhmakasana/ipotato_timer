@@ -8,7 +8,9 @@ import 'package:ipotato_timer/presentation/ui/components/add_task_suggestion_vie
 import 'package:ipotato_timer/presentation/ui/components/task_list_item.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final HomeState homeState;
+
+  const HomePage({Key? key, required this.homeState}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,17 +20,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    widget.homeState.initialize();
   }
 
   @override
   void dispose() {
     GetIt.I.get<AudioService>().dispose();
+    widget.homeState.mTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final homeState = GetIt.I.get<HomeState>()..initialize();
+    final homeState = widget.homeState;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Potato Timer'),
