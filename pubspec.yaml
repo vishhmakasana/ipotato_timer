@@ -24,6 +24,7 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   provider: ^6.0.5
   just_audio: ^0.9.31
+  multiple_result: ^4.0.0
 
 dev_dependencies:
   integration_test:

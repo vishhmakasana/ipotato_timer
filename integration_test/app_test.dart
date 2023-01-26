@@ -131,7 +131,8 @@ void main() {
 
       // added task should shown in list.
       expect(find.byType(ListView), findsOneWidget);
-      expect(find.byKey(ValueKey('task_list_item_$taskId')), findsAtLeastNWidgets(1));
+      expect(find.byKey(ValueKey('task_list_item_$taskId')),
+          findsAtLeastNWidgets(1));
 
       expect(find.text(title), findsAtLeastNWidgets(1));
       expect(find.text(description), findsAtLeastNWidgets(1));
@@ -149,6 +150,7 @@ void main() {
       await tester.pumpAndSettle(secondDuration);
 
       final task = await homeState.getTask(taskId: taskId);
+
       homeState.resumeTask(
         taskId: taskId,
         pausedDuration: task!.pausedDuration,
@@ -176,7 +178,8 @@ void main() {
       await tester.pumpAndSettle(secondDuration);
 
       // added task should shown in list.
-      expect(find.byKey(ValueKey('task_list_item_$taskId')), findsAtLeastNWidgets(1));
+      expect(find.byKey(ValueKey('task_list_item_$taskId')),
+          findsAtLeastNWidgets(1));
 
       expect(find.text(title), findsAtLeastNWidgets(1));
       expect(find.text(description), findsAtLeastNWidgets(1));
