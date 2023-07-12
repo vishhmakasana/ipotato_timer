@@ -7,8 +7,13 @@ on: [push]
 jobs:
   analysis:
     # The name of the job
-    name: example
+    name: analysis
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Folder Contents
-        run: echo $(ls)
+    # steps
+    # The name of the job
+  widget-tests:
+    name: widget-tests
+    runs-on: ubuntu-latest
+    steps:
+    # steps
