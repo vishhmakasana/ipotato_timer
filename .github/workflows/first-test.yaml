@@ -30,7 +30,9 @@ jobs:
         run: flutter test
 
   drive_android:
+    name: integration-tests
     runs-on: macos-latest
+    needs: analysis
     strategy:
       matrix:
         api-level: [ 29 ]
