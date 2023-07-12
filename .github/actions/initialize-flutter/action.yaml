@@ -12,4 +12,4 @@ runs:
         architecture: x64
     - name: Generate code
       shell: bash
-      run: dart run build_runner build
+      run: dart run build_runner build --delete-conflicting-outputs
