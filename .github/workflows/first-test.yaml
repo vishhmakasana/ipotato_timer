@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Folder Contents
-          run: echo ${{github.action_path}}
+          run: echo "${{github.action_path}}"
       - uses: actions/checkout@v3
       - name: Initialize Flutter
           uses: ./.github/actions/initialize-flutter
