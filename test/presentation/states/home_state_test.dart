@@ -21,7 +21,7 @@ main() {
   test('Expect all required dependencies injected', () {
     expect(
         GetIt.I
-            .isRegistered<TaskDatabase>(instanceName: testDatabaseInstanceName),
+            .isRegistered<TaskDatabase>(),
         true);
     expect(GetIt.I.isRegistered<TaskRepository>(), true);
     expect(GetIt.I.isRegistered<AddTaskUseCase>(), true);
@@ -116,7 +116,7 @@ main() {
 
   tearDown(() async {
     await GetIt.I
-        .get<TaskDatabase>(instanceName: testDatabaseInstanceName)
+        .get<TaskDatabase>()
         .close();
   });
 }
