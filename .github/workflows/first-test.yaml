@@ -1,17 +1,20 @@
 # The name of the workflow
-name: first-test
+name: push-check
 
 # The event that triggers the workflow
 on: [push]
 
 jobs:
   analysis:
-    # The name of the job
-    name: example
+    name: format
     runs-on: ubuntu-latest
     steps:
       - name: Echo Folder Contents
-        run: echo $(ls)
+          run: echo $(ls)
+#      - name: Goto Parent
+#          run: cd .
+#      - name: Echo Folder Contents
+#          run: echo $(ls)
 #      - uses: actions/checkout@v3
 #      - name: Initialize Flutter
 #          uses: ./.github/actions/initialize-flutter
