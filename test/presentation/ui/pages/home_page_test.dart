@@ -65,8 +65,7 @@ main() {
     });
 
     // add one entry to the database
-    final database =
-        GetIt.I.get<TaskDatabase>();
+    final database = GetIt.I.get<TaskDatabase>();
     await database.into(database.tasks).insert(
           TasksCompanion.insert(
             id: const Value(taskId),

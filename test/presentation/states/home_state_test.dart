@@ -19,10 +19,7 @@ main() {
   });
 
   test('Expect all required dependencies injected', () {
-    expect(
-        GetIt.I
-            .isRegistered<TaskDatabase>(),
-        true);
+    expect(GetIt.I.isRegistered<TaskDatabase>(), true);
     expect(GetIt.I.isRegistered<TaskRepository>(), true);
     expect(GetIt.I.isRegistered<AddTaskUseCase>(), true);
     expect(GetIt.I.isRegistered<GetAllTaskUseCase>(), true);
@@ -115,8 +112,6 @@ main() {
   });
 
   tearDown(() async {
-    await GetIt.I
-        .get<TaskDatabase>()
-        .close();
+    await GetIt.I.get<TaskDatabase>().close();
   });
 }

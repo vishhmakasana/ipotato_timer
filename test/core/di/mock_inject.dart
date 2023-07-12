@@ -20,11 +20,13 @@ class MockInject {
   }
 
   static initDataBase() {
-    GetIt.I.registerSingleton<TaskDatabase>(TaskDatabase.forTesting(NativeDatabase.memory()));
+    GetIt.I.registerSingleton<TaskDatabase>(
+        TaskDatabase.forTesting(NativeDatabase.memory()));
   }
 
   static initRepositories() {
-    GetIt.I.registerLazySingleton<TaskRepository>(() => LocalTaskRepositoryImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<TaskRepository>(
+        () => LocalTaskRepositoryImpl(GetIt.I()));
   }
 
   static initAudioService() {
@@ -32,13 +34,20 @@ class MockInject {
   }
 
   static initUseCases() {
-    GetIt.I.registerLazySingleton<AddTaskUseCase>(() => AddTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<GetAllTaskUseCase>(() => GetAllTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<GetTaskUseCase>(() => GetTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<DeleteTaskUseCase>(() => DeleteTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<PauseTaskUseCase>(() => PauseTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<ResumeTaskUseCase>(() => ResumeTaskUseCaseImpl(GetIt.I()));
-    GetIt.I.registerLazySingleton<PlaySoundUseCase>(() => PlaySoundUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<AddTaskUseCase>(
+        () => AddTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<GetAllTaskUseCase>(
+        () => GetAllTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<GetTaskUseCase>(
+        () => GetTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<DeleteTaskUseCase>(
+        () => DeleteTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<PauseTaskUseCase>(
+        () => PauseTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<ResumeTaskUseCase>(
+        () => ResumeTaskUseCaseImpl(GetIt.I()));
+    GetIt.I.registerLazySingleton<PlaySoundUseCase>(
+        () => PlaySoundUseCaseImpl(GetIt.I()));
   }
 
   static initStates() {
