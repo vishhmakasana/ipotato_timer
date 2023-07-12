@@ -35,7 +35,7 @@ jobs:
 #    needs: analysis
     strategy:
       matrix:
-        api-level: [ 32 ]
+        api-level: [ 27 ]
         target: [ playstore ]
     steps:
       - uses: actions/checkout@v3
