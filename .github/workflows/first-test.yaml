@@ -17,3 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # steps
+
+
+# Output for this :
+# Invalid workflow file: .github/workflows/first-test.yaml#L1
+# No steps defined in `steps` and no workflow called in `uses` for the following jobs: analysis, widget-tests
