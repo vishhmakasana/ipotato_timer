@@ -12,7 +12,11 @@ jobs:
       - uses: actions/github-script@v6
       - name: Echo Folder Contents
           run: echo $(ls)
-      - uses: actions/checkout@v3
+      - name: Goto Parent
+          run: cd .
+      - name: Echo Folder Contents
+          run: echo $(ls)
+#      - uses: actions/checkout@v3
 #      - name: Initialize Flutter
 #          uses: ./.github/actions/initialize-flutter
 #      - name: Check Code Format
