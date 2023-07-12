@@ -9,28 +9,20 @@ jobs:
     name: format
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Folder Contents
-        run: echo $(ls)
-      - name: Goto Parent
-        run: cd .
-      - name: Echo Folder Contents
-        run: echo $(ls)
-      - name: Echo Folder Contents
-        run: cd ./.github/actions/initialize-flutter
-#      - uses: actions/checkout@v3
-#      - name: Initialize Flutter
-#          uses: ./.github/actions/initialize-flutter
-#      - name: Check Code Format
-#        run: dart format . --set-exit-if-changed
-#      - name: Analyze code
-#        run: dart analyze .
-#  widget-tests:
-#    name: widget-tests
-#    runs-on: ubuntu-latest
-#    needs: analysis
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Initialize Flutter
-#        uses: ./.github/actions/initialize-flutter
-#      - name: Run tests
-#        run: flutter test
+      - uses: actions/checkout@v3
+      - name: Initialize Flutter
+        uses: ./.github/actions/initialize-flutter
+      - name: Check Code Format
+        run: dart format . --set-exit-if-changed
+      - name: Analyze code
+        run: dart analyze .
+  widget-tests:
+    name: widget-tests
+    runs-on: ubuntu-latest
+    needs: analysis
+    steps:
+      - uses: actions/checkout@v3
+      - name: Initialize Flutter
+        uses: ./.github/actions/initialize-flutter
+      - name: Run tests
+        run: flutter test
