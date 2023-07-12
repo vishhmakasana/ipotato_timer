@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Folder Contents
-          run: echo $(ls)
+        run: echo $(ls)
 #      - name: Goto Parent
 #          run: cd .
 #      - name: Echo Folder Contents
