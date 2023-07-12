@@ -11,7 +11,6 @@ import 'package:ipotato_timer/presentation/ui/components/remaining_duration_text
 import 'package:provider/provider.dart';
 
 class TaskListItem extends StatelessWidget {
-
   const TaskListItem({
     Key? key,
     required this.listItem,
